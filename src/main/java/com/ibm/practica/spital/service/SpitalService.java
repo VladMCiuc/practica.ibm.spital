@@ -1,29 +1,47 @@
 package com.ibm.practica.spital.service;
 
+import com.ibm.practica.spital.DTO.AddPacientDTO;
 import com.ibm.practica.spital.DTO.AddReservation;
-import com.ibm.practica.spital.DTO.Pacient;
+import com.ibm.practica.spital.DTO.PacientDTO;
 import com.ibm.practica.spital.DTO.Reservation;
+import com.ibm.practica.spital.entity.Pacient;
+import com.ibm.practica.spital.repository.PacientRepository;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.ObjectUtils;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @Log4j2
 public class SpitalService {
 
+ @Autowired
+ PacientRepository pacientRepository;
 
- public List<Pacient> getAllPacients(){
+ ModelMapper mapper = new ModelMapper();
+
+ public List<PacientDTO> getAllPacients(){
   log.info("SpitalService.getAllPacients() retrieving all pacients...");
-  Pacient p = new Pacient();
-  p.setPacientID("12313");
-  p.setFirstName("Bogdan");
-  Pacient p1 = new Pacient();
-  p1.setPacientID("12314");
-  p1.setFirstName("Dan");
-  return List.of(p,p1);
+
+// alternativa clasica
+//  List<Pacient> list = pacientRepository.findAll();
+//  List<PacientDTO> result = new ArrayList<>();
+//  for (Pacient pacient: list) {
+//// alternativa la model mapper
+////   PacientDTO dto = new PacientDTO(pacient.getFirstName(), pacient.getLastName(), pacient.getAge(),pacient.getIssue());
+//   PacientDTO dto = mapper.map(pacient,PacientDTO.class);
+//   result.add(dto);
+//  }
+
+  return pacientRepository.findAll().stream()
+      .map(pacient -> mapper.map(pacient,PacientDTO.class))
+      .collect(Collectors.toList());
  }
 
  public List<Reservation> getReservations(){
@@ -66,5 +84,23 @@ public class SpitalService {
 
  public boolean deleteReservation(String reservationID){
   return false;
+ }
+
+ public boolean addPacient(AddPacientDTO pacientDTO){
+  Pacient pacient = mapper.map(pacientDTO,Pacient.class);
+  String id = UUID.randomUUID().toString();
+  log.info("id is: " + id);
+  pacient.setPacientID(id.replace("-",""));
+  Pacient p = pacientRepository.save(pacient);
+  log.info("saved pacient id is: " + p.getPacientID());
+  return ObjectUtils.isNotEmpty(p);
+ }
+
+ public boolean deletePacient(String pacientID){
+  return false;
+ }
+
+ public boolean editPacient(PacientDTO pacientDTO){
+  return true;
  }
 }
