@@ -1,10 +1,9 @@
 package com.ibm.practica.spital.service;
 
-import com.ibm.practica.spital.DTO.AddPacientDTO;
-import com.ibm.practica.spital.DTO.AddReservation;
-import com.ibm.practica.spital.DTO.PacientDTO;
-import com.ibm.practica.spital.DTO.Reservation;
+import com.ibm.practica.spital.DTO.*;
+import com.ibm.practica.spital.entity.Employee;
 import com.ibm.practica.spital.entity.Pacient;
+import com.ibm.practica.spital.repository.EmployeeRepository;
 import com.ibm.practica.spital.repository.PacientRepository;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
@@ -23,6 +22,7 @@ public class SpitalService {
 
  @Autowired
  PacientRepository pacientRepository;
+ EmployeeRepository employeeRepository;
 
  ModelMapper mapper = new ModelMapper();
 
@@ -95,6 +95,22 @@ public class SpitalService {
   log.info("saved pacient id is: " + p.getPacientID());
   return ObjectUtils.isNotEmpty(p);
  }
+
+ public boolean isMedicalStaff(EmployeeDTO employeeDTO){
+   return true;
+ }
+
+ public boolean addEmployee(AddEmployeeDTO employeeDTO){
+  Employee employee = mapper.map(employeeDTO,Employee.class);
+  String id = UUID.randomUUID().toString();
+  log.info("Employee id is: + " + id);
+  employee.setEmployeeId(id.replace("-", ""));
+  Employee e = employeeRepository.save(employee);
+  log.info("saved employee id is: "+e.getEmployeeId());
+  return ObjectUtils.isNotEmpty(e);
+ }
+
+
 
  public boolean deletePacient(String pacientID){
   return false;

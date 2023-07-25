@@ -11,28 +11,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="pacient")
-public class Pacient {
+@Table(name="employee")
+public class Employee {
 
     @Id
     @NotNull
-    @Column(name="pacient_id")
-    private String pacientID;
+    @Column(name="employee_id")
+    private String employeeId;
 
     @NotNull
     @Column(name="first_name")
-    private String firstName;
+    private String firstname;
+
     @NotNull
     @Column(name="last_name")
-    private String lastName;
+    private String lastname;
+
     @NotNull
-    @Column(name="age")
-    private int age;
-    @NotNull
-    @Column(name="issue")
-    private String issue;
-    @NotNull
-    @Column(name="CNP")
-    private String cnp;
+    @Column(name="medical_staff")
+    private Boolean medical;
+
+
+
+
 
 }

@@ -1,9 +1,6 @@
 package com.ibm.practica.spital.controller;
 
-import com.ibm.practica.spital.DTO.AddPacientDTO;
-import com.ibm.practica.spital.DTO.AddReservation;
-import com.ibm.practica.spital.DTO.PacientDTO;
-import com.ibm.practica.spital.DTO.Reservation;
+import com.ibm.practica.spital.DTO.*;
 import com.ibm.practica.spital.service.SpitalService;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
@@ -28,6 +25,27 @@ public class SpitalController {
 
     @Autowired
     private SpitalService service;
+
+    @PostMapping("/addEmployee")
+    public ResponseEntity addEmployee(@RequestBody @Valid AddEmployeeDTO employee){
+        log.info("addEmployee() started for : " + employee);
+        return service.addEmployee(employee) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/deleteEmployee")
+    public String deleteEmployee(){ return "Employee deleted";}
+
+    @GetMapping("/isMedicalStaff")
+    public ResponseEntity<Object> isMedicalStaff(@RequestBody @Valid EmployeeDTO employee){
+        log.info("isMedicalStaff() started for : " + employee);
+        return service.isMedicalStaff(employee) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/addPacient")
+    public ResponseEntity addPacient(@RequestBody @Valid AddPacientDTO pacient){
+        log.info("addPacient() started for : " + pacient);
+        return service.addPacient(pacient) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    }
 
     @GetMapping("/getAllPacients")
     public List<PacientDTO> getAllPacients(){
@@ -63,11 +81,6 @@ public class SpitalController {
         return service.addReservation(reservation) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/addPacient")
-    public ResponseEntity addPacient(@RequestBody @Valid AddPacientDTO pacient){
-        log.info("addPacient() started for : " + pacient);
-        return service.addPacient(pacient) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
-    }
 
     @DeleteMapping("/deleteReservation")
     public ResponseEntity deleteReservation(String reservationID){
