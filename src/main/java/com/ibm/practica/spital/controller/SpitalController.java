@@ -5,7 +5,8 @@ import com.ibm.practica.spital.DTO.AddReservation;
 import com.ibm.practica.spital.DTO.PacientDTO;
 import com.ibm.practica.spital.DTO.Reservation;
 import com.ibm.practica.spital.service.SpitalService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,7 +64,8 @@ public class SpitalController {
     }
 
     @PostMapping("/addPacient")
-    public ResponseEntity addPacient(@RequestBody AddPacientDTO pacient){
+    public ResponseEntity addPacient(@RequestBody @Valid AddPacientDTO pacient){
+        log.info("addPacient() started for : " + pacient);
         return service.addPacient(pacient) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
