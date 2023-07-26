@@ -44,6 +44,13 @@ public class SpitalService {
       .collect(Collectors.toList());
  }
 
+ public List<EmployeeDTO> getAllEmployees(){
+  log.info("SpitalService.getAllPacients() retrieving all pacients...");
+  return employeeRepository.findAll().stream()
+          .map(employee -> mapper.map(employee,EmployeeDTO.class))
+          .collect(Collectors.toList());
+ }
+
  public List<Reservation> getReservations(){
   log.info("SpitalService.getReservations() retrieving all reservations...");
   Reservation p = new Reservation();

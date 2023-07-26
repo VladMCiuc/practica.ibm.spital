@@ -56,6 +56,14 @@ public class SpitalController {
         return result;
     }
 
+    @GetMapping("/getAllEmployees")
+    public List<EmployeeDTO> getAllEmployees(){
+        log.info("SpitalController.getAllEmployees() has started...");
+        List<EmployeeDTO> result = service.getAllEmployees();
+        log.info("SpitalController.getAllPacients() has finished.");
+        return result;
+    }
+
     @GetMapping("/reservations")
     public List<Reservation> getReservations(){
         return service.getReservations();
