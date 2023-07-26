@@ -38,7 +38,7 @@ public class SpitalController {
     @GetMapping("/isMedicalStaff")
     public ResponseEntity<Object> isMedicalStaff(@RequestBody @Valid EmployeeDTO employee){
         log.info("isMedicalStaff() started for : " + employee);
-        return service.isMedicalStaff(employee) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+        return service.isMedicalStaff(String.valueOf(employee)) ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/addPacient")

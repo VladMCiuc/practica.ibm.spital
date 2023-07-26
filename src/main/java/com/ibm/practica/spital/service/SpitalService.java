@@ -103,8 +103,11 @@ public class SpitalService {
   return ObjectUtils.isNotEmpty(p);
  }
 
- public boolean isMedicalStaff(EmployeeDTO employeeDTO){
-   return true;
+ public boolean isMedicalStaff(String employeeId){
+  log.info("SpitalService.isMedicalStaff() started for employee id:" + employeeId);
+  Employee employee = employeeRepository.findById(employeeId).orElse(null);
+  return employee != null && employee.getMedical();
+
  }
 
  public boolean addEmployee(AddEmployeeDTO employeeDTO){
